@@ -14,8 +14,6 @@ public class Rule
         ArgsCount = argsCount;
         Action = action;
     }
-    
-    public string GetName() => Name;
 
     public override string ToString()
     {

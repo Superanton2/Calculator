@@ -19,7 +19,7 @@ public class Computation
         double result = _performCalculations(sortedTokens);
         if (AST) _ASTtree(sortedTokens);
         
-        return result;
+        return Math.Round(result, 10);
     }
 
     private double _performCalculations(MyList<string> tokens)

@@ -2,22 +2,22 @@ namespace CS201;
 
 public class Variable
 {
-    private string _name;
-    private MyList<string> _value;
-
-    public Variable(string name, MyList<string> value)
+    public string Name { get ; }
+    public MyList<string> Value { get; }
+    private string _valuePrint;
+    
+    public Variable(string name, MyList<string> value, string valuePrint)
     {
-        _name = name;
-        _value = value;
+        Name = name;
+        Value = value;
+        _valuePrint = valuePrint;
     }
     
-    public string Name => _name;
-    public MyList<string> Value => _value;
-    
+
     public override string ToString()
     {
-        string spaces = new string(' ', 5 - _name.Length);
-        string value = String.Join(' ', _value);
-        return $"{_name}{spaces}= {value}";
+        // string value = String.Join(' ', Value);
+        string spaces = new string(' ', 4 - Name.Length);
+        return $"{Name}{spaces}= {_valuePrint}";
     }
 }

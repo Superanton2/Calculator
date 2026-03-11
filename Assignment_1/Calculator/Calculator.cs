@@ -17,12 +17,15 @@ public class Calculator
 
     public void AddRule(string name, int priority, int argsCount, Func<double[], double> action) => 
         _rulesStorage.AddRule(name, priority, argsCount, action);
+
+    public void RemoveRule(string name) => _rulesStorage.RemoveRule(name);
     public void RemoveRuleAt(int index) => _rulesStorage.RemoveRuleAt(index);
     public void ShowRules() => _rulesStorage.ShowRules();
     
     
     public void AddVariable(string name, string value) => _variablesStorage.AddVariable(name, value, _rulesStorage);
     public void RemoveVariable(string name) => _variablesStorage.RemoveVariable(name);
+    public void RemoveVariableAt(int index) => _variablesStorage.RemoveVariableAt(index);
     public void ShowVariables() => _variablesStorage.ShowVariables();
     
     
