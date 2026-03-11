@@ -16,7 +16,7 @@ public class Calculator
     
 
     public void AddRule(string name, int priority, int argsCount, Func<double[], double> action) => 
-        _rulesStorage.AddRule(name, priority, argsCount, action);
+        _rulesStorage.AddRule(name, priority, argsCount, action, _variablesStorage);
 
     public void RemoveRule(string name) => _rulesStorage.RemoveRule(name);
     public void RemoveRuleAt(int index) => _rulesStorage.RemoveRuleAt(index);

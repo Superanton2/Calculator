@@ -9,23 +9,24 @@ public class RulesStorage
         _rules = new MyList<Rule>();
         if (defaultRules)
         {
-            AddRule("+", 1, 2, args => args[0] + args[1]);
-            AddRule("-", 1, 2, args => args[0] - args[1]);
-            AddRule("*", 2, 2, args => args[0] * args[1]);
-            AddRule("/", 2, 2, args => args[0] / args[1]);
-            AddRule("^", 3, 2, args => Math.Pow(args[0], args[1]));
+            VariablesStorage variables = new VariablesStorage();
+            AddRule("+", 1, 2, args => args[0] + args[1], variables);
+            AddRule("-", 1, 2, args => args[0] - args[1], variables);
+            AddRule("*", 2, 2, args => args[0] * args[1], variables);
+            AddRule("/", 2, 2, args => args[0] / args[1], variables);
+            AddRule("^", 3, 2, args => Math.Pow(args[0], args[1]), variables);
             
-            AddRule("sin", 4, 1, args => Math.Sin(args[0] * Math.PI / 180.0));
-            AddRule("cos", 4, 1, args => Math.Cos(args[0] * Math.PI / 180.0));
-            AddRule("tg", 4, 1, args => Math.Tan(args[0] * Math.PI / 180.0));
-            AddRule("ctg", 4, 1, args => 1.0 / Math.Tan(args[0] * Math.PI / 180.0));
+            AddRule("sin", 4, 1, args => Math.Sin(args[0] * Math.PI / 180.0), variables);
+            AddRule("cos", 4, 1, args => Math.Cos(args[0] * Math.PI / 180.0), variables);
+            AddRule("tg", 4, 1, args => Math.Tan(args[0] * Math.PI / 180.0), variables);
+            AddRule("ctg", 4, 1, args => 1.0 / Math.Tan(args[0] * Math.PI / 180.0), variables);
 
             
-            AddRule("max", 4, 2, args => Math.Max(args[0], args[1]));
-            AddRule("min", 4, 2, args => Math.Min(args[0], args[1]));
+            AddRule("max", 4, 2, args => Math.Max(args[0], args[1]), variables);
+            AddRule("min", 4, 2, args => Math.Min(args[0], args[1]), variables);
 
-            AddRule("(", 0, 0, null);
-            AddRule(")", 0, 0, null);
+            AddRule("(", 0, 0, null, variables);
+            AddRule(")", 0, 0, null, variables);
         }
     }
 
@@ -42,15 +43,18 @@ public class RulesStorage
     }
     
     
-    public void AddRule(string name, int priority, int argsCount, Func<double[], double> action)
+    public void AddRule(string name, int priority, int argsCount, Func<double[], double> action, 
+        VariablesStorage variables)
     {
-        foreach (Rule rule in _rules)
+        if (variables.Find(name) != null)
         {
-            if (rule.Name == name)
-            {
-                throw new Exception("Rule already exists");
-            }
+            throw new ArgumentException($"Rule {name} is already defined as a variable");
         }
+        if (Find(name) != null)
+        {
+            throw new Exception("Rule already exists");
+        }
+
         _rules.Add(new Rule(name, priority, argsCount, action));
     }
 

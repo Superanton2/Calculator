@@ -25,13 +25,13 @@ public class VariablesStorage
     
     public void AddVariable(string name, string value, RulesStorage rules)
     {
-        
-        foreach (Variable variable in _variables)
+        if (rules.Find(name) != null)
         {
-            if (variable.Name == name)
-            {
-                throw new WarningException($"Variable {name} was already defined. Now it's value is {value}");
-            }
+            throw new ArgumentException($"Variable {name} is already defined as a rule");
+        }
+        if (Find(name) == null)
+        {
+            RemoveVariable(name);
         }
         
         MyList<string> valueTokens = Tokenizer.GetTokens(value);

@@ -16,7 +16,6 @@ public class Variable
 
     public override string ToString()
     {
-        // string value = String.Join(' ', Value);
         string spaces = new string(' ', 4 - Name.Length);
         return $"{Name}{spaces}= {_valuePrint}";
     }

@@ -61,8 +61,9 @@ calculator.ShowVariables();
 
 calculator.RemoveVariable("y");
 calculator.RemoveVariableAt(2);
-calculator.ShowVariables();
 calculator.AddVariable("x", "2 + 20");
+calculator.ShowVariables();
+Console.WriteLine();
 
 
 
