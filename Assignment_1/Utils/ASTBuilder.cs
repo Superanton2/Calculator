@@ -5,17 +5,15 @@ public class ASTBuilder
 {
     private static MyStack<TreeNode> _stack;
     
-    public static TreeNode BuildTree(MyList<string> tokens, RulesStorage rules, VariablesStorage variablesStorage)
+    public static TreeNode BuildTree(MyList<string> tokens, RulesStorage rules)
     {
         _stack = new MyStack<TreeNode>();
 
         foreach (string token in tokens)
         {
             //число або змінна
-            // if (double.TryParse(token, out _) || variables.Find(token) != null)
-            if (double.TryParse(token, System.Globalization.NumberStyles.Any, 
-                                System.Globalization.CultureInfo.InvariantCulture, out _) 
-                    || variablesStorage.Find(token) != null)
+            // if (double.TryParse(token, out _)) 
+            if (double.TryParse(token, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
             {
                 _stack.Add(new TreeNode(token));
             }

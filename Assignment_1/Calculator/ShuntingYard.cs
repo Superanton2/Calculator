@@ -9,16 +9,16 @@ public class ShuntingYard
     private static MyList<string> _output;
     private static MyStack<string> _stack;
     
-    public static MyList<string> PerformAlgorithm(MyList<string> tokens, RulesStorage rules, VariablesStorage variablesStorage)
+    public static MyList<string> PerformAlgorithm(MyList<string> tokens, RulesStorage rules)
     {
         _output = new MyList<string>();
         _stack = new MyStack<string>();
         
         foreach (string token in tokens)
         {
-            _processToken(token, rules, variablesStorage);
+            _processToken(token, rules);
         }
-
+    
         // забираємо все що лишилось в стеку
         while (!_stack.IsEmpty())
         {
@@ -28,13 +28,10 @@ public class ShuntingYard
         return _output;
     }
 
-    private static void _processToken(string token, RulesStorage rules, VariablesStorage variablesStorage)
+    private static void _processToken(string token, RulesStorage rules)
     {
         // цифра або змінна
-        // if (double.TryParse(token, out _) || variables.Find(token) != null)
-        if (double.TryParse(token, System.Globalization.NumberStyles.Any, 
-                            System.Globalization.CultureInfo.InvariantCulture, out _) 
-                    || variablesStorage.Find(token) != null)
+        if (double.TryParse(token, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
         {
             _output.Add(token);
         }
@@ -64,19 +61,17 @@ public class ShuntingYard
                 _output.Add(_stack.Remove());
             }
         }
-
         
         // оператори та функції
         else
         {
-            _processOperator(token, rules, variablesStorage);
+            _processOperator(token, rules);
         }
     }
 
-    private static void _processOperator(string token, RulesStorage rules, VariablesStorage variablesStorage)
+    private static void _processOperator(string token, RulesStorage rules)
     {
         Rule currentRule = rules.Find(token);
-        Variable currentVariable = variablesStorage.Find(token);
         
         // якщо є правило
         if (currentRule != null)

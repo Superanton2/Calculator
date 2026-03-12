@@ -3,18 +3,16 @@ namespace CS201;
 public class Computation
 {
     private RulesStorage _rulesStorage;
-    private VariablesStorage _variablesStorage;
-
-    public Computation(RulesStorage rulesStorage, VariablesStorage variablesStorage)
+    
+    public Computation(RulesStorage rulesStorage)
     {
         _rulesStorage = rulesStorage;
-        _variablesStorage = variablesStorage;
     }
 
     public double Calculate(string userInput, bool AST=false )
     {
         MyList<string> tokens = Tokenizer.GetTokens(userInput);
-        MyList<string> sortedTokens = ShuntingYard.PerformAlgorithm(tokens, _rulesStorage, _variablesStorage);
+        MyList<string> sortedTokens = ShuntingYard.PerformAlgorithm(tokens, _rulesStorage);
         
         double result = _performCalculations(sortedTokens);
         if (AST) _ASTtree(sortedTokens);
@@ -47,19 +45,16 @@ public class Computation
         {
             stack.Add(number);
         }
-        // змінна
-        else if (_variablesStorage.Find(token) != null)
-        {
-            MyList<string> variableTokens = _variablesStorage.Find(token).Value;
-            double varResult = _performCalculations(variableTokens);
-            stack.Add(varResult);
-        }
-        
-        
-        // оператор
+        // оператор або змінні
         else
         {
             Rule currentRule = _rulesStorage.Find(token);
+
+            if (currentRule == null)
+            {
+                throw new ArgumentException($"Unknown token or variable '{token}'!");
+            }
+
             // кількість аргументів
             double[] args = new double[currentRule.ArgsCount];
 
@@ -86,7 +81,7 @@ public class Computation
     private void _ASTtree(MyList<string> tokens)
     {
         // вище, перший
-        TreeNode root = ASTBuilder.BuildTree(tokens, _rulesStorage, _variablesStorage);
+        TreeNode root = ASTBuilder.BuildTree(tokens, _rulesStorage);
         ASTBuilder.Print(root);
     }
 }
